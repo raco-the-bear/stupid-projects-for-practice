@@ -1,80 +1,59 @@
-import customtkinter
-from typing import Callable, Union
+import random
 
-class WidgetName(customtkinter.CTkFrame):
-    def __init__(self, *args,
-                 width: int = 100,
-                 height: int = 100,
-                 **kwargs):
-        super().__init__(*args, width=width, height=height, **kwargs)
+agains = 0
+friendly = ["Okay!", "Sure! ( •̀ ω •́ )✧", "Of course! (´▽`ʃ♡ƪ)", "No problem! (＾▽＾)", "You got it! (～￣▽￣)～"]
+slightly_annoyed = ["Again? (¬_¬)", "You really want to do this again? (´。＿。｀)", "Fine, but this is the last time! ( ͡° ͜ʖ ͡°)", "You are testing my patience! ^^", "I hope you know what you are doing! :)"]
+angry = ["Seriously? (ಠ_ಠ)", "I am getting tired of this! (ಠ‿ಠ)", "You are really pushing it! ( ͡° ͜ʖ ͡°)", ]
+enough = ["I have had enough! (╯°□°）╯︵ ┻━┻", "I am done with this! (╯°□°）╯︵ ┻━┻", "No more! (╯°□°）╯︵ ┻━┻","I am not going to do this again! (╯°□°）╯︵ ┻━┻", "I am done with you! (ノಠ益ಠ)ノ彡┻━┻"]
+not_possible = ["Maybe in another universe", "This is not possible", "I don't think so", "No", "No way"]
+too_much = ["I am saving your life", "I thought you were a rational person, GET OUT!", "No, that's too much", "No, this is not good for you", "I am not going to do that", "really? anyway, I am not going to do that"]
 
-class FloatSpinbox(customtkinter.CTkFrame):
-    def __init__(self, *args,
-                 width: int = 100,
-                 height: int = 32,
-                 step_size: Union[int, float] = 1,
-                 command: Callable = None,
-                 **kwargs):
-        super().__init__(*args, width=width, height=height, **kwargs)
+def agains_fun(do):
+        do = do.lower().strip()
+        if do == "y":
+            global agains
+            agains += 1
+            if agains < 4:
+                print(random.choice(friendly))
+                return True
+            elif agains < 8:
+                print(random.choice(slightly_annoyed))
+                return True
+            elif agains < 12:
+                print(random.choice(angry))
+                return True
+            else:
+                print(random.choice(enough))
+                return False
+            
+        elif do == "n":
+            print("Goodbye!")
+            return False
+        else:
+            print("Invalid input. Please enter 'y' or 'n'. ")
+            return agains_fun(input("Do you want to print more? (y/n) ")) 
 
-        self.step_size = step_size
-        self.command = command
+while True:
+    times = input("How many times do you want to print? ")
+    if not times.isdigit():
+        print("Invalid input. Please enter a number between 1 and 100.")
+        continue
+    times = int(times)
+    if times < 1 : 
+        print(random.choice(not_possible))
+        break
+    elif times > 100:
+        print(random.choice(too_much))
+        break
+    elif 1 <= times <= 100: 
+        for t in range(times): 
+            print("Hello World!")
+        do = input("Do you want to print more? (y/n) ")
+        if agains_fun(do) == False:
+            break  
+    else: 
+        print("Invalid input. Please enter a number between 1 and 100.")
 
-        self.configure(fg_color=("black", "black"))  # set frame color
 
-        self.grid_columnconfigure((0, 2), weight=0)  # buttons don't expand
-        self.grid_columnconfigure(1, weight=1)  # entry expands
-
-        self.subtract_button = customtkinter.CTkButton(self, text="-", width=height-6, height=height-6,
-                                                       command=self.subtract_button_callback)
-        self.subtract_button.grid(row=0, column=0, padx=(3, 0), pady=3)
-
-        self.entry = customtkinter.CTkEntry(self, width=width-(2*height), height=height-6, border_width=0)
-        self.entry.grid(row=0, column=1, columnspan=1, padx=3, pady=3, sticky="ew")
-
-        self.add_button = customtkinter.CTkButton(self, text="+", width=height-6, height=height-6,
-                                                  command=self.add_button_callback)
-        self.add_button.grid(row=0, column=2, padx=(0, 3), pady=3)
-
-        # default value
-        self.entry.insert(0, "0.0")
-
-    def add_button_callback(self):
-        if self.command is not None:
-            self.command()
-        try:
-            value = float(self.entry.get()) + self.step_size
-            self.entry.delete(0, "end")
-            self.entry.insert(0, value)
-        except ValueError:
-            return
-
-    def subtract_button_callback(self):
-        if self.command is not None:
-            self.command()
-        try:
-            value = float(self.entry.get()) - self.step_size
-            self.entry.delete(0, "end")
-            self.entry.insert(0, value)
-        except ValueError:
-            return
-
-    def get(self) -> Union[float, None]:
-        try:
-            return float(self.entry.get())
-        except ValueError:
-            return None
-
-    def set(self, value: float):
-        self.entry.delete(0, "end")
-        self.entry.insert(0, str(float(value)))
-        
-app = customtkinter.CTk()
-
-spinbox_1 = FloatSpinbox(app, width=150, step_size=3)
-spinbox_1.pack(padx=20, pady=20)
-
-spinbox_1.set(35)
-print(spinbox_1.get())
-
-app.mainloop()
+                
+ 
