@@ -3,12 +3,23 @@ from time import sleep
 from rich import print
 
 def dots():
+    print("""\n                                   Some Magic
+      ∧＿∧  
+     (｡･ω･｡)つ━☆・*。
+   ⊂/   /            ・゜
+    しーＪ    °。+*°。
+                                   .・゜                                      
+                               ゜｡ﾟﾟ･｡･ﾟﾟ  
+
+                                 
+                                  \n """, end="")
+    sleep(0.5)
     print("         ", end="")
     for _ in range(50):
         y = random.choice(["[red]", "[yellow]", "[green]", "[blue]", "[magenta]", "[cyan]"])
         x = f"{y}▪{y}"
         print(x, end=" ")
-        sleep(0.08)
+        sleep(0.1)
     
 
 
@@ -32,7 +43,7 @@ print("""
                █   ██▀▀█ ██▄▄        ██▀▀█ ██▄▄    █    █    █   █     █ ▄   █ █   █ █▀▀▌  █     █   █        
               █    █   █ █▄   ▄▀     █   █ █▄   ▄▀ ███▄ ███▄ ▀████     █  █  █ ▀████ █  █  ███▄  █  █         
              ▀        █  ▀███▀           █  ▀███▀       ▀    ▀           █ █ █          █       ▀ ███▀         
-                     ▀                 ▀                                 ▀ ▀          ▀                  [yellow]                   
+                     ▀                 ▀                                 ▀ ▀          ▀                  [/yellow]                   
   
                                    █ ▄▄  █▄▄▄▄ ▄█    ▄     ▄▄▄▄▀ ▄███▄   █▄▄▄▄
                                    █   █ █  ▄▀ ██     █ ▀▀▀ █    █▀   ▀  █  ▄▀
@@ -48,29 +59,29 @@ def agains_fun(do):
             global agains
             agains += 1
             if agains < 4:
-                print(f"[italic white]{random.choice(friendly)}[/italic white]")
+                print(f"[italic white]\n{random.choice(friendly)}[/italic white]")
                 return True
             elif agains < 6:
-                print(f"[italic green]{random.choice(slightly_annoyed)}[/italic green]")
+                print(f"[italic green]\n{random.choice(slightly_annoyed)}[/italic green]")
                 return True
             elif agains < 9:
-                print(f"[italic yellow]{random.choice(angry)}[/italic yellow]")
+                print(f"[italic yellow]\n{random.choice(angry)}[/italic yellow]")
                 return True
             else:
-                print(f"[bold red]{random.choice(enough)}[/bold red]")
+                print(f"[bold red]\n{random.choice(enough)}[/bold red]")
                 return False
             
         elif do == "n":
-            print("[italic white]   ৹ Bye :D[/italic white]")
+            print("[italic white]\n   ৹ Bye :D[/italic white]")
             return False
         else:
-            print("[purple]   ৹ Invalid input. Please enter 'y' or 'n'. [/purple]")
-            return agains_fun(input("   ৹ Do you want to print more? (y/n) ")) 
+            print("[purple]\n         ৹ Invalid input. Please enter 'y' or 'n'. [/purple]")
+            return agains_fun(input("         ৹ Do you want to print more? (y/n) ")) 
 
 while True:
-    times = input("  \n\n ৹ How many times do you want to print it? ")
+    times = input("\n\n       ৹ How many times do you want to print \"Hello World\"? ")
     if not times.isdigit():
-        print("[purple]   ৹ Invalid input. Please enter a number between 1 and 100.[/purple]")
+        print("[purple]\n           ৹ Invalid input. Please enter a number between 1 and 100.[/purple]")
         continue
     times = int(times)
     if times < 1 : 
@@ -85,11 +96,11 @@ while True:
     ৹   |_| _ || _   \    / _  _| _||
         | |(/_||(_)   \/\/ (_)| |(_|.
  [blue]""")
-        do = input("   ৹ Do you want to print more? (y/n) ")
+        do = input("        \n ৹ Do you want to print more? (y/n) ")
         if agains_fun(do) == False:
             break  
     else: 
-        print("[purple]   ৹ Invalid input. Please enter a number between 1 and 100.[/purple]")
+        print("[purple]\n           ৹ Invalid input. Please enter a number between 1 and 100.[/purple]")
 
 
                 
