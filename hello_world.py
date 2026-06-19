@@ -1,5 +1,16 @@
 import random
+from time import sleep
 from rich import print
+
+def dots():
+    print("         ", end="")
+    for _ in range(50):
+        y = random.choice(["[red]", "[yellow]", "[green]", "[blue]", "[magenta]", "[cyan]"])
+        x = f"{y}▪{y}"
+        print(x, end=" ")
+        sleep(0.08)
+    
+
 
 agains = 0
 friendly = ["   ৹ Okay!", "   ৹ Sure! ( •̀ ω •́ )✧", "   ৹ Of course! (´▽`ʃ♡ƪ)", "   ৹ No problem! (＾▽＾)", "   ৹ You got it! (～￣▽￣)～"]
@@ -9,10 +20,28 @@ enough = ["   ৹ I have had enough! (╯°□°）╯︵ ┻━┻", "   ৹ I 
 not_possible = ["   ৹ Maybe in another universe", "   ৹ This is not possible", "   ৹ I don't think so", "   ৹ No", "   ৹ No way"]
 too_much = ["   ৹ I am saving your life", "   ৹ I thought you were a rational person, GET OUT!", "   ৹ No, that's too much", "   ৹ No, this is not good for you", "   ৹ I am not going to do that", "   ৹ really? anyway, I am not going to do that"]
 print("""
-[bold white]                 Welcome to [/bold white]
-[italic yellow]              the Hello, World[/italic yellow]
- [bold white]                 Printer![/bold white] 
+                         ▄ ▄   ▄███▄   █     ▄█▄    ████▄ █▀▄▀█ ▄███▄          ▄▄▄▄▀ ████▄
+                        █   █  █▀   ▀  █     █▀ ▀▄  █   █ █ █ █ █▀   ▀      ▀▀▀ █    █   █
+                       █ ▄   █ ██▄▄    █     █   ▀  █   █ █ ▄ █ ██▄▄            █    █   █
+                       █  █  █ █▄   ▄▀ ███▄  █▄  ▄▀ ▀████ █   █ █▄   ▄▀        █     ▀████
+                        █ █ █  ▀███▀       ▀ ▀███▀           █  ▀███▀         ▀           
+                         ▀ ▀                                ▀                                                               
+[yellow]  
+              ▄▄▄▄▀ ▄  █ ▄███▄        ▄  █ ▄███▄   █    █    ████▄       ▄ ▄   ████▄ █▄▄▄▄ █     ██▄          
+           ▀▀▀ █   █   █ █▀   ▀      █   █ █▀   ▀  █    █    █   █      █   █  █   █ █  ▄▀ █     █  █         
+               █   ██▀▀█ ██▄▄        ██▀▀█ ██▄▄    █    █    █   █     █ ▄   █ █   █ █▀▀▌  █     █   █        
+              █    █   █ █▄   ▄▀     █   █ █▄   ▄▀ ███▄ ███▄ ▀████     █  █  █ ▀████ █  █  ███▄  █  █         
+             ▀        █  ▀███▀           █  ▀███▀       ▀    ▀           █ █ █          █       ▀ ███▀         
+                     ▀                 ▀                                 ▀ ▀          ▀                  [yellow]                   
+  
+                                   █ ▄▄  █▄▄▄▄ ▄█    ▄     ▄▄▄▄▀ ▄███▄   █▄▄▄▄
+                                   █   █ █  ▄▀ ██     █ ▀▀▀ █    █▀   ▀  █  ▄▀
+                                   █▀▀▀  █▀▀▌  ██ ██   █    █    ██▄▄    █▀▀▌ 
+                                   █     █  █  ▐█ █ █  █   █     █▄   ▄▀ █  █ 
+                                    █      █    ▐ █  █ █  ▀      ▀███▀     █  
+                                     ▀    ▀       █   ██                  ▀      
     """)
+dots()
 def agains_fun(do):
         do = do.lower().strip()
         if do == "y":
@@ -39,7 +68,7 @@ def agains_fun(do):
             return agains_fun(input("   ৹ Do you want to print more? (y/n) ")) 
 
 while True:
-    times = input("   ৹ How many times do you want to print it? ")
+    times = input("  \n\n ৹ How many times do you want to print it? ")
     if not times.isdigit():
         print("[purple]   ৹ Invalid input. Please enter a number between 1 and 100.[/purple]")
         continue
@@ -52,7 +81,10 @@ while True:
         break
     elif 1 <= times <= 100: 
         for t in range(times): 
-            print("[italic blue]   ৹ Hello, World![/italic blue]")
+            print("""[blue]   
+    ৹   |_| _ || _   \    / _  _| _||
+        | |(/_||(_)   \/\/ (_)| |(_|.
+ [blue]""")
         do = input("   ৹ Do you want to print more? (y/n) ")
         if agains_fun(do) == False:
             break  
