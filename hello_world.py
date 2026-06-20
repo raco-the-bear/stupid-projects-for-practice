@@ -1,28 +1,10 @@
 import random
+import threading
+from playsound import playsound
 from time import sleep
 from rich import print
 
-def dots():
-    print("""\n                                   Some Magic
-      ∧＿∧  
-     (｡･ω･｡)つ━☆・*。
-   ⊂/   /            ・゜
-    しーＪ    °。+*°。
-                                   .・゜                                      
-                               ゜｡ﾟﾟ･｡･ﾟﾟ  
-
-                                 
-                                  \n """, end="")
-    sleep(0.5)
-    print("         ", end="")
-    for _ in range(50):
-        y = random.choice(["[red]", "[yellow]", "[green]", "[blue]", "[magenta]", "[cyan]"])
-        x = f"{y}▪{y}"
-        print(x, end=" ")
-        sleep(0.1)
-    
-
-
+colors = ["[red]", "[yellow]", "[green]", "[blue]", "[magenta]", "[cyan]", "[purple]"]
 agains = 0
 friendly = ["   ৹ Okay!", "   ৹ Sure! ( •̀ ω •́ )✧", "   ৹ Of course! (´▽`ʃ♡ƪ)", "   ৹ No problem! (＾▽＾)", "   ৹ You got it! (～￣▽￣)～"]
 slightly_annoyed = ["   ৹ Again? :]", "   ৹ You really want to do this again? (´。＿。｀)", "   ৹ Fine, but this is the last time! ( ͡° ͜ʖ ͡°)", "   ৹ You are testing my patience! ^^", "   ৹ I'll do it, but don't expect me to be happy about it! :) "]
@@ -30,7 +12,7 @@ angry = ["   ৹ Seriously? (ಠ_ಠ)", "   ৹ I am getting tired of this! ", "
 enough = ["   ৹ I have had enough! (╯°□°）╯︵ ┻━┻", "   ৹ I am done with this! (╯°□°）╯︵ ┻━┻", "   ৹ No more! (╯°□°）╯︵ ┻━┻","   ৹ I am not going to do this again! (╯°□°）╯︵ ┻━┻", "   ৹ I am done with you! (ノಠ益ಠ)ノ彡┻━┻"]
 not_possible = ["   ৹ Maybe in another universe", "   ৹ This is not possible", "   ৹ I don't think so", "   ৹ No", "   ৹ No way"]
 too_much = ["   ৹ I am saving your life", "   ৹ I thought you were a rational person, GET OUT!", "   ৹ No, that's too much", "   ৹ No, this is not good for you", "   ৹ I am not going to do that", "   ৹ really? anyway, I am not going to do that"]
-print("""
+welcome = """   
                          ▄ ▄   ▄███▄   █     ▄█▄    ████▄ █▀▄▀█ ▄███▄          ▄▄▄▄▀ ████▄
                         █   █  █▀   ▀  █     █▀ ▀▄  █   █ █ █ █ █▀   ▀      ▀▀▀ █    █   █
                        █ ▄   █ ██▄▄    █     █   ▀  █   █ █ ▄ █ ██▄▄            █    █   █
@@ -38,20 +20,74 @@ print("""
                         █ █ █  ▀███▀       ▀ ▀███▀           █  ▀███▀         ▀           
                          ▀ ▀                                ▀                                                               
 [yellow]  
-              ▄▄▄▄▀ ▄  █ ▄███▄        ▄  █ ▄███▄   █    █    ████▄       ▄ ▄   ████▄ █▄▄▄▄ █     ██▄          
-           ▀▀▀ █   █   █ █▀   ▀      █   █ █▀   ▀  █    █    █   █      █   █  █   █ █  ▄▀ █     █  █         
-               █   ██▀▀█ ██▄▄        ██▀▀█ ██▄▄    █    █    █   █     █ ▄   █ █   █ █▀▀▌  █     █   █        
-              █    █   █ █▄   ▄▀     █   █ █▄   ▄▀ ███▄ ███▄ ▀████     █  █  █ ▀████ █  █  ███▄  █  █         
-             ▀        █  ▀███▀           █  ▀███▀       ▀    ▀           █ █ █          █       ▀ ███▀         
-                     ▀                 ▀                                 ▀ ▀          ▀                  [/yellow]                   
+                        ▄  █ ▄███▄   █    █    ████▄       ▄ ▄   ████▄ █▄▄▄▄ █     ██▄          
+                       █   █ █▀   ▀  █    █    █   █      █   █  █   █ █  ▄▀ █     █  █         
+                       ██▀▀█ ██▄▄    █    █    █   █     █ ▄   █ █   █ █▀▀▌  █     █   █        
+                       █   █ █▄   ▄▀ ███▄ ███▄ ▀████     █  █  █ ▀████ █  █  ███▄  █  █         
+                           █ ▀███▀                        █ █ █          █         ███▀         
+                                                           ▀ ▀          ▀          [/yellow]                   
   
                                    █ ▄▄  █▄▄▄▄ ▄█    ▄     ▄▄▄▄▀ ▄███▄   █▄▄▄▄
                                    █   █ █  ▄▀ ██     █ ▀▀▀ █    █▀   ▀  █  ▄▀
                                    █▀▀▀  █▀▀▌  ██ ██   █    █    ██▄▄    █▀▀▌ 
                                    █     █  █  ▐█ █ █  █   █     █▄   ▄▀ █  █ 
                                     █      █    ▐ █  █ █  ▀      ▀███▀     █  
-                                     ▀    ▀       █   ██                  ▀      
-    """)
+                                     ▀    ▀       █   ██                  ▀   
+                                     """
+
+howMany= """\n
+    
+        ╻ ╻┏━┓╻ ╻   ┏┳┓┏━┓┏┓╻╻ ╻   ╺┳╸╻┏┳┓┏━╸┏━┓   ╺┳┓┏━┓   ╻ ╻┏━┓╻ ╻   ╻ ╻┏━┓┏┓╻╺┳╸   ╺┳╸┏━┓   ┏━┓┏━┓╻┏┓╻╺┳╸   ╻╻╻ ╻┏━╸╻  ╻  ┏━┓   ╻ ╻┏━┓┏━┓╻  ╺┳┓╻╻┏━┓
+        ┣━┫┃ ┃┃╻┃   ┃┃┃┣━┫┃┗┫┗┳┛    ┃ ┃┃┃┃┣╸ ┗━┓    ┃┃┃ ┃   ┗┳┛┃ ┃┃ ┃   ┃╻┃┣━┫┃┗┫ ┃     ┃ ┃ ┃   ┣━┛┣┳┛┃┃┗┫ ┃      ┣━┫┣╸ ┃  ┃  ┃ ┃   ┃╻┃┃ ┃┣┳┛┃   ┃┃   ╺┛
+        ╹ ╹┗━┛┗┻┛   ╹ ╹╹ ╹╹ ╹ ╹     ╹ ╹╹ ╹┗━╸┗━┛   ╺┻┛┗━┛    ╹ ┗━┛┗━┛   ┗┻┛╹ ╹╹ ╹ ╹     ╹ ┗━┛   ╹  ╹┗╸╹╹ ╹ ╹      ╹ ╹┗━╸┗━╸┗━╸┗━┛   ┗┻┛┗━┛╹┗╸┗━╸╺┻┛   ╹  
+
+        ✰ """
+helloWorld = """  
+            ╻ ╻┏━╸╻  ╻  ┏━┓     ╻ ╻┏━┓┏━┓╻  ╺┳┓╻
+            ┣━┫┣╸ ┃  ┃  ┃ ┃     ┃╻┃┃ ┃┣┳┛┃   ┃┃╹
+            ╹ ╹┗━╸┗━╸┗━╸┗━┛ ┛   ┗┻┛┗━┛╹┗╸┗━╸╺┻┛╹
+"""
+printMore = """       \n  
+       ╺┳┓┏━┓   ╻ ╻┏━┓╻ ╻   ╻ ╻┏━┓┏┓╻╺┳╸   ╺┳╸┏━┓   ┏━┓┏━┓╻┏┓╻╺┳╸   ┏┳┓┏━┓┏━┓┏━╸┏━┓   ┏╸   ╻ ╻    ╻   ┏┓╻   ╺┓
+        ┃┃┃ ┃   ┗┳┛┃ ┃┃ ┃   ┃╻┃┣━┫┃┗┫ ┃     ┃ ┃ ┃   ┣━┛┣┳┛┃┃┗┫ ┃    ┃┃┃┃ ┃┣┳┛┣╸  ╺┛   ┃    ┗┳┛   ┏┛   ┃┗┫    ┃
+       ╺┻┛┗━┛    ╹ ┗━┛┗━┛   ┗┻┛╹ ╹╹ ╹ ╹     ╹ ┗━┛   ╹  ╹┗╸╹╹ ╹ ╹    ╹ ╹┗━┛╹┗╸┗━╸ ╹    ┗╸    ╹    ╹    ╹ ╹   ╺┛ 
+       ✰ """
+
+invaildInput = """[purple]\n           
+        ╻┏┓╻╻ ╻┏━┓╻  ╻╺┳┓   ╻┏┓╻┏━┓╻ ╻╺┳╸    ┏━┓╻  ┏━╸┏━┓┏━┓┏━╸   ┏━╸┏┓╻╺┳╸┏━╸┏━┓   ┏━┓   ┏┓╻╻ ╻┏┳┓┏┓ ┏━╸┏━┓   ┏┓ ┏━╸╺┳╸╻ ╻┏━╸┏━╸┏┓╻   ╺┓    ┏━┓┏┓╻╺┳┓   ╺┓ ┏━┓┏━┓ 
+        ┃┃┗┫┃┏┛┣━┫┃  ┃ ┃┃   ┃┃┗┫┣━┛┃ ┃ ┃     ┣━┛┃  ┣╸ ┣━┫┗━┓┣╸    ┣╸ ┃┗┫ ┃ ┣╸ ┣┳┛   ┣━┫   ┃┗┫┃ ┃┃┃┃┣┻┓┣╸ ┣┳┛   ┣┻┓┣╸  ┃ ┃╻┃┣╸ ┣╸ ┃┗┫    ┃    ┣━┫┃┗┫ ┃┃    ┃ ┃┃┃┃┃┃ 
+        ╹╹ ╹┗┛ ╹ ╹┗━╸╹╺┻┛   ╹╹ ╹╹  ┗━┛ ╹ ╹   ╹  ┗━╸┗━╸╹ ╹┗━┛┗━╸   ┗━╸╹ ╹ ╹ ┗━╸╹┗╸   ╹ ╹   ╹ ╹┗━┛╹ ╹┗━┛┗━╸╹┗╸   ┗━┛┗━╸ ╹ ┗┻┛┗━╸┗━╸╹ ╹   ╺┻╸   ╹ ╹╹ ╹╺┻┛   ╺┻╸┗━┛┗━┛╹
+[/purple]"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def dots():
+    
+    print("         ", end="")
+    sleep(0.5)
+    
+    for _ in range(15):
+        y = random.choice(colors)
+        dots = random.choice(["▪ ▪ ▪ ▪", "▪ ▪", "▪ ▪ ▪"])
+        x = f"{y}{dots}{y}"
+        playsound("beep.mp3")
+        print(x, end=" ")
+        
+print(welcome)
 dots()
 def agains_fun(do):
         do = do.lower().strip()
@@ -75,13 +111,14 @@ def agains_fun(do):
             print("[italic white]\n   ৹ Bye :D[/italic white]")
             return False
         else:
-            print("[purple]\n         ৹ Invalid input. Please enter 'y' or 'n'. [/purple]")
-            return agains_fun(input("         ৹ Do you want to print more? (y/n) ")) 
+            print(invaildInput)
+            sleep(2)
+            return agains_fun(input(printMore)) 
 
 while True:
-    times = input("\n\n       ৹ How many times do you want to print \"Hello World\"? ")
+    times = input(howMany)
     if not times.isdigit():
-        print("[purple]\n           ৹ Invalid input. Please enter a number between 1 and 100.[/purple]")
+        print(invaildInput)
         continue
     times = int(times)
     if times < 1 : 
@@ -92,15 +129,12 @@ while True:
         break
     elif 1 <= times <= 100: 
         for t in range(times): 
-            print("""[blue]   
-    ৹   |_| _ || _   \    / _  _| _||
-        | |(/_||(_)   \/\/ (_)| |(_|.
- [blue]""")
-        do = input("        \n ৹ Do you want to print more? (y/n) ")
+            print(f'{random.choice(colors)}{helloWorld}{random.choice(colors)}')
+        do = input(printMore)
         if agains_fun(do) == False:
             break  
     else: 
-        print("[purple]\n           ৹ Invalid input. Please enter a number between 1 and 100.[/purple]")
+        print(invaildInput)
 
 
                 
